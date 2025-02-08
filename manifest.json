@@ -1,0 +1,10 @@
+{
+	"id": "richtig.obsidian",
+	"name": "Richtig?",
+	"version": "0.1.0",
+	"minAppVersion": "0.15.0",
+	"description": "Let your notes get checked by an LLM",
+	"author": "Timon Jurschitsch",
+	"authorUrl": "https://dertimonius.dev",
+	"isDesktopOnly": false
+}
