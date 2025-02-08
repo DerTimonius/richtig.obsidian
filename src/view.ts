@@ -1,13 +1,16 @@
 import { ItemView, type WorkspaceLeaf } from "obsidian";
-
-export const VIEW_TYPE_EXAMPLE = "richtig.obsidian-example-view";
+import { VIEW_TYPE_EXAMPLE } from "./constants";
+import type RichtigPlugin from "./plugin";
+import { generate } from "./ai/generate";
 
 export class RichtigView extends ItemView {
-	private text: string | null;
+	private text: string;
+	private plugin: RichtigPlugin;
 
-	constructor(leaf: WorkspaceLeaf, text: string) {
+	constructor(leaf: WorkspaceLeaf, plugin: RichtigPlugin) {
 		super(leaf);
-		this.text = text;
+		this.text = plugin.textToCheck;
+		this.plugin = plugin;
 	}
 
 	getViewType() {
@@ -24,12 +27,22 @@ export class RichtigView extends ItemView {
 		const container = overall.children[1];
 		container.empty();
 		container.createEl("h4", { text: "Richtig?" });
-		this.text && container.createEl("section", { text: this.text });
+
+		const section = container.createEl("section");
+		setImmediate(async () => {
+			await generate(
+				this.text,
+				{
+					apiKey: this.plugin.settings.geminiApiKey,
+					vendor: "google",
+					model: "gemini-2.0-flash-001",
+				},
+				section,
+			);
+		});
 	}
 
 	async onClose() {
-		this.text = null;
-
 		const container = this.containerEl.children[1];
 		container.empty();
 	}

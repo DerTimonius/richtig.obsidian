@@ -22,5 +22,12 @@
 		"obsidian": "latest",
 		"tslib": "2.4.0",
 		"typescript": "^5.7.0"
+	},
+	"dependencies": {
+		"@ai-sdk/anthropic": "^1.1.6",
+		"@ai-sdk/deepseek": "^0.1.8",
+		"@ai-sdk/google": "^1.1.10",
+		"@ai-sdk/openai": "^1.1.9",
+		"ai": "^4.1.26"
 	}
 }

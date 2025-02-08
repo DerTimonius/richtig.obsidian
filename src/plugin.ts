@@ -1,14 +1,24 @@
 import type { Editor, WorkspaceLeaf } from "obsidian";
 import { Plugin } from "obsidian";
-import { VIEW_TYPE_EXAMPLE, RichtigView } from "./view";
+import { RichtigView } from "./view";
+import { DEFAULT_SETTINGS, VIEW_TYPE_EXAMPLE } from "./constants";
+import { RichtigSettingsTab } from "./settings";
+
+export interface RichtigPluginSettings {
+	geminiApiKey: string;
+}
 
 export default class RichtigPlugin extends Plugin {
-	private textToCheck: string;
+	public textToCheck: string;
+	public settings: RichtigPluginSettings;
+
 	async onload() {
+		this.loadSettings();
+
 		this.addCommand({
 			id: "richtig.obsidian-selection-check",
 			name: "Pass selection to check",
-			editorCallback: (editor: Editor) => {
+			editorCallback: async (editor: Editor) => {
 				const sel = editor.getSelection();
 
 				this.textToCheck = sel;
@@ -27,10 +37,9 @@ export default class RichtigPlugin extends Plugin {
 			},
 		});
 
-		this.registerView(
-			VIEW_TYPE_EXAMPLE,
-			(leaf) => new RichtigView(leaf, this.textToCheck),
-		);
+		this.registerView(VIEW_TYPE_EXAMPLE, (leaf) => new RichtigView(leaf, this));
+
+		this.addSettingTab(new RichtigSettingsTab(this.app, this));
 	}
 
 	onunload() {}
@@ -51,5 +60,13 @@ export default class RichtigPlugin extends Plugin {
 		if (!leaf) return;
 
 		workspace.revealLeaf(leaf);
+	}
+
+	async loadSettings() {
+		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+	}
+
+	async saveSettings() {
+		await this.saveData(this.settings);
 	}
 }
