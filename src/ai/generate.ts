@@ -35,6 +35,9 @@ Example:
 <p>Great job on your summary of AVL trees! One valuable addition could be a section on <strong>tree traversals</strong>, such as in-order, pre-order, and post-order. These are key to understanding how AVL trees function in searches and modifications.</p>
 <p>It could also be helpful to include a brief explanation of balancing factors to reinforce the section on rotations.</p>
 `,
+		onError({ error }) {
+			console.error(error);
+		},
 	});
 
 	const output = [] as string[];

@@ -16,6 +16,7 @@ export default class RichtigPlugin extends Plugin {
 			id: 'richtig.obsidian-selection-check',
 			name: 'Pass selection to check',
 			editorCallback: async (editor: Editor) => {
+				this.deactivateView();
 				const sel = editor.getSelection();
 
 				this.textToCheck = sel;
@@ -27,6 +28,7 @@ export default class RichtigPlugin extends Plugin {
 			id: 'richtig.obsidian-file-check',
 			name: 'Pass complete file to check',
 			editorCallback: (editor) => {
+				this.deactivateView();
 				const sel = editor.getValue();
 
 				this.textToCheck = sel;
@@ -57,6 +59,11 @@ export default class RichtigPlugin extends Plugin {
 		if (!leaf) return;
 
 		workspace.revealLeaf(leaf);
+	}
+
+	deactivateView() {
+		const { workspace } = this.app;
+		workspace.detachLeavesOfType(RICHTIG_VIEW_TYPE);
 	}
 
 	async loadSettings() {
