@@ -1,20 +1,51 @@
-import { createAnthropic } from "@ai-sdk/anthropic";
-import { createDeepSeek } from "@ai-sdk/deepseek";
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
-import { createOpenAI } from "@ai-sdk/openai";
+import { type AnthropicProvider, createAnthropic } from '@ai-sdk/anthropic';
+import { type DeepSeekProvider, createDeepSeek } from '@ai-sdk/deepseek';
+import {
+	type GoogleGenerativeAIProvider,
+	createGoogleGenerativeAI,
+} from '@ai-sdk/google';
+import { type OpenAIProvider, createOpenAI } from '@ai-sdk/openai';
+import { AI_MODELS } from '../constants';
+import type { RichtigPluginSettings } from '../types';
 
-export type VendorType = "openai" | "anthropic" | "google" | "deepseek";
+export function getAi(settings: RichtigPluginSettings): {
+	model: keyof typeof AI_MODELS;
+	apiKey: string | undefined;
+	ai:
+		| OpenAIProvider
+		| AnthropicProvider
+		| GoogleGenerativeAIProvider
+		| DeepSeekProvider
+		| null;
+} {
+	const model = settings.model;
+	const vendor = AI_MODELS[model];
+	const apiKey = settings.apiKeys[vendor];
 
-// TODO: make this better
-export function getAi(vendor: VendorType, apiKey: string) {
-	switch (vendor) {
-		case "openai":
-			return createOpenAI({ apiKey });
-		case "anthropic":
-			return createAnthropic({ apiKey });
-		case "google":
-			return createGoogleGenerativeAI({ apiKey });
-		case "deepseek":
-			return createDeepSeek({ apiKey });
+	if (!apiKey) {
+		return { model, apiKey, ai: null };
 	}
+
+	let ai:
+		| OpenAIProvider
+		| AnthropicProvider
+		| GoogleGenerativeAIProvider
+		| DeepSeekProvider;
+
+	switch (vendor) {
+		case 'openai':
+			ai = createOpenAI({ apiKey });
+			break;
+		case 'anthropic':
+			ai = createAnthropic({ apiKey });
+			break;
+		case 'google':
+			ai = createGoogleGenerativeAI({ apiKey });
+			break;
+		case 'deepseek':
+			ai = createDeepSeek({ apiKey });
+			break;
+	}
+
+	return { model, ai, apiKey };
 }

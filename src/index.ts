@@ -1,3 +1,3 @@
-import RichtigPlugin from "./plugin";
+import RichtigPlugin from './plugin';
 
 export default RichtigPlugin;

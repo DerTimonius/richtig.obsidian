@@ -1,12 +1,9 @@
-import type { Editor, WorkspaceLeaf } from "obsidian";
-import { Plugin } from "obsidian";
-import { RichtigView } from "./view";
-import { DEFAULT_SETTINGS, VIEW_TYPE_EXAMPLE } from "./constants";
-import { RichtigSettingsTab } from "./settings";
-
-export interface RichtigPluginSettings {
-	geminiApiKey: string;
-}
+import type { Editor, WorkspaceLeaf } from 'obsidian';
+import { Plugin } from 'obsidian';
+import { DEFAULT_SETTINGS, RICHTIG_VIEW_TYPE } from './constants';
+import { RichtigSettingsTab } from './settings';
+import type { RichtigPluginSettings } from './types';
+import { RichtigView } from './view';
 
 export default class RichtigPlugin extends Plugin {
 	public textToCheck: string;
@@ -16,8 +13,8 @@ export default class RichtigPlugin extends Plugin {
 		this.loadSettings();
 
 		this.addCommand({
-			id: "richtig.obsidian-selection-check",
-			name: "Pass selection to check",
+			id: 'richtig.obsidian-selection-check',
+			name: 'Pass selection to check',
 			editorCallback: async (editor: Editor) => {
 				const sel = editor.getSelection();
 
@@ -27,8 +24,8 @@ export default class RichtigPlugin extends Plugin {
 		});
 
 		this.addCommand({
-			id: "richtig.obsidian-file-check",
-			name: "Pass complete file to check",
+			id: 'richtig.obsidian-file-check',
+			name: 'Pass complete file to check',
 			editorCallback: (editor) => {
 				const sel = editor.getValue();
 
@@ -37,7 +34,7 @@ export default class RichtigPlugin extends Plugin {
 			},
 		});
 
-		this.registerView(VIEW_TYPE_EXAMPLE, (leaf) => new RichtigView(leaf, this));
+		this.registerView(RICHTIG_VIEW_TYPE, (leaf) => new RichtigView(leaf, this));
 
 		this.addSettingTab(new RichtigSettingsTab(this.app, this));
 	}
@@ -48,13 +45,13 @@ export default class RichtigPlugin extends Plugin {
 		const { workspace } = this.app;
 
 		let leaf: WorkspaceLeaf | null = null;
-		const leaves = workspace.getLeavesOfType(VIEW_TYPE_EXAMPLE);
+		const leaves = workspace.getLeavesOfType(RICHTIG_VIEW_TYPE);
 
 		if (leaves.length > 0) {
 			leaf = leaves[0];
 		} else {
 			leaf = workspace.getRightLeaf(false);
-			await leaf?.setViewState({ type: VIEW_TYPE_EXAMPLE, active: true });
+			await leaf?.setViewState({ type: RICHTIG_VIEW_TYPE, active: true });
 		}
 
 		if (!leaf) return;

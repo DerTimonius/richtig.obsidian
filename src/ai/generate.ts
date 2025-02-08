@@ -1,19 +1,23 @@
-import { streamText } from "ai";
-import { getAi, type VendorType } from "./platforms";
-
-export interface AISettings {
-	apiKey: string;
-	vendor: VendorType;
-	model: string;
-}
+import { streamText } from 'ai';
+import type { RichtigPluginSettings } from '../types';
+import { getAi } from './platforms';
 
 export async function generate(
 	prompt: string,
-	{ vendor, apiKey, model }: AISettings,
+	settings: RichtigPluginSettings,
 	el: HTMLElement,
 ) {
+	const { ai, model, apiKey } = getAi(settings);
+
+	if (!apiKey || !ai) {
+		el.textContent =
+			'It appears you are missing the API key for the model you want to use. Please make sure to add it in the plugin settings';
+
+		return;
+	}
+
 	const { textStream, text } = streamText({
-		model: getAi(vendor, apiKey)(model),
+		model: ai(model),
 		prompt,
 		system: `You are an AI assistant designed to provide constructive and encouraging feedback on a user’s personal knowledge notes. The note you will receive might be part of a note, or a whole note, but it might be missing context from other notes. Your goal is to help the user refine and expand their understanding without strictly correcting them. Instead, you should highlight potential gaps, suggest additional relevant details, and provide friendly, supportive guidance.
 Tone and Style: 
@@ -36,7 +40,7 @@ Example:
 	const output = [] as string[];
 	for await (const textPart of textStream) {
 		output.push(textPart);
-		el.innerHTML = output.join("");
+		el.innerHTML = output.join('');
 	}
 
 	return text;

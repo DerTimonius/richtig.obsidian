@@ -1,11 +1,12 @@
-import { ItemView, type WorkspaceLeaf } from "obsidian";
-import { VIEW_TYPE_EXAMPLE } from "./constants";
-import type RichtigPlugin from "./plugin";
-import { generate } from "./ai/generate";
+import { ItemView, type WorkspaceLeaf } from 'obsidian';
+import { generate } from './ai/generate';
+import { RICHTIG_VIEW_TYPE } from './constants';
+import type RichtigPlugin from './plugin';
 
 export class RichtigView extends ItemView {
 	private text: string;
 	private plugin: RichtigPlugin;
+	private section: HTMLElement;
 
 	constructor(leaf: WorkspaceLeaf, plugin: RichtigPlugin) {
 		super(leaf);
@@ -14,31 +15,25 @@ export class RichtigView extends ItemView {
 	}
 
 	getViewType() {
-		return VIEW_TYPE_EXAMPLE;
+		return RICHTIG_VIEW_TYPE;
 	}
 
 	getDisplayText() {
-		return "Richtig?";
+		return 'Richtig?';
 	}
 
 	async onOpen() {
 		const overall = this.containerEl;
-		overall.style.minWidth = "240px";
+		overall.style.minWidth = '240px';
 		const container = overall.children[1];
 		container.empty();
-		container.createEl("h4", { text: "Richtig?" });
+		container.createEl('h4', { text: 'Richtig?' });
 
-		const section = container.createEl("section");
+		this.section = container.createEl('section');
+		this.section.empty();
+		this.section.innerHTML = '';
 		setImmediate(async () => {
-			await generate(
-				this.text,
-				{
-					apiKey: this.plugin.settings.geminiApiKey,
-					vendor: "google",
-					model: "gemini-2.0-flash-001",
-				},
-				section,
-			);
+			await generate(this.text, this.plugin.settings, this.section);
 		});
 	}
 
