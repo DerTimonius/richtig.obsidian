@@ -51,6 +51,8 @@ export class RichtigSettingsTab extends PluginSettingTab {
 			.setName('OpenAI API Key')
 			.setDesc('Your valid OpenAI API key')
 			.addText((text) => {
+				text.inputEl.type = 'password';
+
 				return text
 					.setPlaceholder('Enter your key')
 					.setValue(this.plugin.settings.apiKeys.openai)
@@ -64,6 +66,8 @@ export class RichtigSettingsTab extends PluginSettingTab {
 			.setName('Anthropic API Key')
 			.setDesc('Your valid Anthropic API key')
 			.addText((text) => {
+				text.inputEl.type = 'password';
+
 				return text
 					.setPlaceholder('Enter your key')
 					.setValue(this.plugin.settings.apiKeys.anthropic)
@@ -77,6 +81,8 @@ export class RichtigSettingsTab extends PluginSettingTab {
 			.setName('Gemini API Key')
 			.setDesc('Your valid Google API key')
 			.addText((text) => {
+				text.inputEl.type = 'password';
+
 				return text
 					.setPlaceholder('Enter your key')
 					.setValue(this.plugin.settings.apiKeys.google)
@@ -90,6 +96,8 @@ export class RichtigSettingsTab extends PluginSettingTab {
 			.setName('Deepseek API Key')
 			.setDesc('Your valid Deepseek API key')
 			.addText((text) => {
+				text.inputEl.type = 'password';
+
 				return text
 					.setPlaceholder('Enter your key')
 					.setValue(this.plugin.settings.apiKeys.deepseek)

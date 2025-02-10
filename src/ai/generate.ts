@@ -37,6 +37,7 @@ Example:
 `,
 		onError({ error }) {
 			console.error(error);
+			el.innerHTML = (error as { message: string }).message;
 		},
 	});
 
