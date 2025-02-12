@@ -14,7 +14,7 @@ export default class RichtigPlugin extends Plugin {
 
 		this.addCommand({
 			id: 'richtig.obsidian-selection-check',
-			name: 'Pass selection to check',
+			name: 'Analyze selection',
 			editorCallback: async (editor: Editor) => {
 				this.deactivateView();
 				const sel = editor.getSelection();
@@ -26,7 +26,7 @@ export default class RichtigPlugin extends Plugin {
 
 		this.addCommand({
 			id: 'richtig.obsidian-file-check',
-			name: 'Pass complete file to check',
+			name: 'Analyze full note',
 			editorCallback: (editor) => {
 				this.deactivateView();
 				const sel = editor.getValue();
