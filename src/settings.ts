@@ -1,6 +1,6 @@
 import { type App, PluginSettingTab, Setting } from 'obsidian';
-import type { AI_MODELS } from './constants';
 import type RichtigPlugin from './plugin';
+import type { Model } from './types';
 
 export class RichtigSettingsTab extends PluginSettingTab {
 	plugin: RichtigPlugin;
@@ -37,12 +37,12 @@ export class RichtigSettingsTab extends PluginSettingTab {
 
 					'deepseek-chat': 'Deepseek V3',
 					'deepseek-reasoner': 'Deepseek R1',
-				} satisfies Record<keyof typeof AI_MODELS, string>;
+				} satisfies Record<Model, string>;
 
 				dropdown.addOptions(options);
 				dropdown.setValue(this.plugin.settings.model);
 				dropdown.onChange(async (option) => {
-					this.plugin.settings.model = option as keyof typeof AI_MODELS;
+					this.plugin.settings.model = option as Model;
 					await this.plugin.saveSettings();
 				});
 			});

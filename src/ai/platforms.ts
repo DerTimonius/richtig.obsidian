@@ -6,10 +6,10 @@ import {
 } from '@ai-sdk/google';
 import { type OpenAIProvider, createOpenAI } from '@ai-sdk/openai';
 import { AI_MODELS } from '../constants';
-import type { RichtigPluginSettings } from '../types';
+import type { Model, RichtigPluginSettings } from '../types';
 
 export function getAi(settings: RichtigPluginSettings): {
-	model: keyof typeof AI_MODELS;
+	model: Model;
 	apiKey: string | undefined;
 	ai:
 		| OpenAIProvider

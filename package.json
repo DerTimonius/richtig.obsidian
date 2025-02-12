@@ -9,8 +9,7 @@
 		"lint": "biome lint --write .",
 		"lint:check": "biome lint .",
 		"format": "biome format --write .",
-		"format:check": "biome format .",
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"format:check": "biome format ."
 	},
 	"author": "Timon Jurschitsch",
 	"license": "MIT",
