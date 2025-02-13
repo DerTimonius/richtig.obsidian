@@ -12,10 +12,45 @@ name: release-please
 jobs:
   release-please:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - uses: googleapis/release-please-action@v4
         with:
           token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
-          release-type: node
-          extra-files: |
-            manifest.json
+          config-file: release-please-config.json
+
+      - uses: actions/checkout@v4
+        if: ${{ steps.release.outputs.release_created }}
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        if: ${{ steps.release.outputs.release_created }}
+
+      - name: Set up Node
+        if: ${{ steps.release.outputs.release_created }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        if: ${{ steps.release.outputs.release_created }}
+        run: pnpm install
+
+      - name: Build
+        if: ${{ steps.release.outputs.release_created }}
+        run: pnpm build
+
+      - name: Update version in manifest.json
+        if: ${{ steps.release.outputs.release_created }}
+        run: pnpm version
+
+      - name: Create release
+        if: ${{ steps.release.outputs.release_created }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ steps.release.outputs.tag_name }}" \
+            --title="${{ steps.release.outputs.tag_name }}" \
+            --draft \
+            main.js manifest.json

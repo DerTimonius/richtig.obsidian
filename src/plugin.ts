@@ -1,4 +1,4 @@
-import type { Editor, WorkspaceLeaf } from 'obsidian';
+import type { App, Editor, PluginManifest, WorkspaceLeaf } from 'obsidian';
 import { Plugin } from 'obsidian';
 import { DEFAULT_SETTINGS, RICHTIG_VIEW_TYPE } from './constants';
 import { RichtigSettingsTab } from './settings';
@@ -8,6 +8,12 @@ import { RichtigView } from './view';
 export default class RichtigPlugin extends Plugin {
 	public textToCheck: string;
 	public settings: RichtigPluginSettings;
+
+	constructor(app: App, manifest: PluginManifest) {
+		super(app, manifest);
+		this.textToCheck = '';
+		this.settings = DEFAULT_SETTINGS;
+	}
 
 	async onload() {
 		this.loadSettings();

@@ -3,13 +3,16 @@
 	"version": "0.1.0",
 	"description": "",
 	"main": "main.js",
+	"packageManager": "pnpm@9.15.4",
 	"scripts": {
 		"check": "biome check --write .",
 		"dev": "node esbuild.config.mjs",
 		"lint": "biome lint --write .",
 		"lint:check": "biome lint .",
 		"format": "biome format --write .",
-		"format:check": "biome format ."
+		"format:check": "biome format .",
+		"build": "tsc --noEmit --skipLibCheck && node esbuild.config.mjs production",
+		"typecheck": "tsc --noEmit --skipLibCheck"
 	},
 	"author": "DerTimonius",
 	"license": "MIT",

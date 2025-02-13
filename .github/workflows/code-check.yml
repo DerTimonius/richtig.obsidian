@@ -1,7 +1,6 @@
 name: Code quality
 
 on:
-  push:
   pull_request:
 
 jobs:
@@ -16,3 +15,23 @@ jobs:
           version: latest
       - name: Run Biome
         run: biome ci .
+
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run typecheck
+        run: pnpm typecheck

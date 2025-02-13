@@ -13,6 +13,7 @@ export class RichtigView extends ItemView {
 		super(leaf);
 		this.text = plugin.textToCheck;
 		this.plugin = plugin;
+		this.section = null;
 	}
 
 	getViewType() {
