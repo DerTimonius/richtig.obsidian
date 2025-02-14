@@ -1,7 +1,7 @@
 {
 	"id": "richtig.obsidian",
 	"name": "Richtig?",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"minAppVersion": "0.15.0",
 	"description": "Let your notes be analyzed by an LLM to find errors or missing information",
 	"author": "DerTimonius",
