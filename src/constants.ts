@@ -15,6 +15,7 @@ export const AI_MODELS = {
 	// OpenAI models
 	'gpt-4o': 'openai',
 	'gpt-4o-mini': 'openai',
+	'gpt-4-turbo': 'openai',
 	'gpt-3.5-turbo': 'openai',
 	o1: 'openai',
 	'o1-mini': 'openai',
