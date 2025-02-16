@@ -13,6 +13,15 @@
 
 (Currently, manual installation instructions will be provided until listed in the Obsidian Community Plugins.)
 
+### Download the release
+
+1. Go to the [Releases](https://github.com/DerTimonius/richtig.obsidian/releases) page.
+2. Download the latest `richtig.obsidian.zip` file.
+3. Extract the contents into `<path-to-vault>/.obsidian/plugins/richtig.obsidian`.
+4. Enable `richtig?` in Obsidian settings under "Community Plugins."
+
+### Build it yourself
+
 1. Run the following commands
 
 ```sh copy
