@@ -26,7 +26,6 @@ export class RichtigView extends ItemView {
 
 	async onOpen() {
 		const overall = this.containerEl;
-		overall.style.minWidth = '240px';
 		const container = overall.children[1];
 		container.empty();
 		container.createEl('h4', { text: 'Richtig?' });
@@ -39,7 +38,7 @@ export class RichtigView extends ItemView {
 			this.section.remove();
 		}
 
-		this.section = container.createEl('section');
+		this.section = container.createEl('section', { cls: 'richtig-section' });
 		this.section.empty();
 		setImmediate(async () => {
 			await generate(

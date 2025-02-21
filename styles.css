@@ -1,0 +1,7 @@
+.richtig-section {
+	min-width: 240px;
+}
+
+.richtig-error {
+	color: var(--text-error);
+}

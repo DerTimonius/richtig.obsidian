@@ -14,6 +14,7 @@ export async function generate(
 	if (!apiKey || !ai) {
 		el.createEl('p', {
 			text: 'It appears you are missing the API key for the model you want to use. Please make sure to add it in the plugin settings',
+			cls: 'richtig-error',
 		});
 		return;
 	}
