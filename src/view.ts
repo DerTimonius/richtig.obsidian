@@ -41,10 +41,14 @@ export class RichtigView extends ItemView {
 
 		this.section = container.createEl('section');
 		this.section.empty();
-		this.section.innerHTML = '';
 		setImmediate(async () => {
-			// biome-ignore lint/style/noNonNullAssertion: created four lines above
-			await generate(this.text, this.plugin.settings, this.section!);
+			await generate(
+				this.text,
+				this.plugin.settings,
+				// biome-ignore lint/style/noNonNullAssertion: created four lines above
+				this.section!,
+				this.plugin.app,
+			);
 			this.previousText = this.text;
 		});
 	}

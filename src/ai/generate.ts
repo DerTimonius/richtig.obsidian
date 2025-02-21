@@ -1,20 +1,24 @@
 import { streamText } from 'ai';
 import type { RichtigPluginSettings } from '../types';
 import { getAi } from './platforms';
+import { type App, MarkdownRenderer } from 'obsidian';
 
 export async function generate(
 	prompt: string,
 	settings: RichtigPluginSettings,
 	el: HTMLElement,
+	app: App,
 ) {
 	const { ai, model, apiKey } = getAi(settings);
 
 	if (!apiKey || !ai) {
-		el.textContent =
-			'It appears you are missing the API key for the model you want to use. Please make sure to add it in the plugin settings';
-
+		el.createEl('p', {
+			text: 'It appears you are missing the API key for the model you want to use. Please make sure to add it in the plugin settings',
+		});
 		return;
 	}
+
+	const contentContainer = el.createDiv();
 
 	const { textStream, text } = streamText({
 		model: ai(model),
@@ -30,22 +34,44 @@ Content Guidelines:
 - Suggest relevant examples, explanations, or alternative viewpoints.
 - If the note is well-written, offer affirmation and minor refinements rather than major rewrites.
 - But if you spot typos or grammatical errors, point them out.
-Your response should be in pure HTML format (without Markdown blocks) to be displayed within Obsidian. Use simple HTML elements like <p>, <ul>, <strong>, and <em>.
+Your response should be in Markdown format. Use standard Markdown syntax for formatting:
+- **bold** for emphasis
+- *italic* for subtle emphasis
+- - Bullet points for lists
+- > Blockquotes for important notes or suggestions
 
-Example: 
-<p>Great job on your summary of AVL trees! One valuable addition could be a section on <strong>tree traversals</strong>, such as in-order, pre-order, and post-order. These are key to understanding how AVL trees function in searches and modifications.</p>
-<p>It could also be helpful to include a brief explanation of balancing factors to reinforce the section on rotations.</p>
-`,
+Example response:
+**Great job on your summary of AVL trees!** One valuable addition could be a section on **tree traversals**, such as in-order, pre-order, and post-order. These are key to understanding how AVL trees function in searches and modifications.
+
+It could also be helpful to include a brief explanation of balancing factors to reinforce the section on rotations.`,
 		onError({ error }) {
 			console.error(error);
-			el.innerHTML = (error as { message: string }).message;
+			contentContainer.empty();
+			const errorEl = contentContainer.createEl('p', {
+				cls: 'richtig-error',
+			});
+			errorEl.textContent = (error as { message: string }).message;
 		},
 	});
+	let accumulatedText = '';
 
-	const output = [] as string[];
 	for await (const textPart of textStream) {
-		output.push(textPart);
-		el.innerHTML = output.join('');
+		accumulatedText += textPart;
+		contentContainer.empty();
+
+		try {
+			await MarkdownRenderer.render(
+				app,
+				accumulatedText,
+				contentContainer,
+				'',
+				// @ts-expect-error: no component necessary
+				null,
+			);
+		} catch (e) {
+			console.error('Error rendering markdown:', e);
+			contentContainer.setText(accumulatedText);
+		}
 	}
 
 	return text;
