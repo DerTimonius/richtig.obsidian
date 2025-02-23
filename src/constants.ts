@@ -1,6 +1,6 @@
 import type { RichtigPluginSettings, VendorType } from './types';
 
-export const RICHTIG_VIEW_TYPE = 'richtig.obsidian-example-view';
+export const RICHTIG_VIEW_TYPE = 'richtig-sidebar-view';
 export const DEFAULT_SETTINGS: RichtigPluginSettings = {
 	model: 'o3-mini',
 	apiKeys: {

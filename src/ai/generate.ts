@@ -1,7 +1,7 @@
 import { streamText } from 'ai';
+import { type App, MarkdownRenderer } from 'obsidian';
 import type { RichtigPluginSettings } from '../types';
 import { getAi } from './platforms';
-import { type App, MarkdownRenderer } from 'obsidian';
 
 export async function generate(
 	prompt: string,

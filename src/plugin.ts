@@ -19,7 +19,7 @@ export default class RichtigPlugin extends Plugin {
 		this.loadSettings();
 
 		this.addCommand({
-			id: 'richtig.obsidian-selection-check',
+			id: 'richtig-selection-check',
 			name: 'Analyze selection',
 			editorCallback: async (editor: Editor) => {
 				this.deactivateView();
@@ -31,7 +31,7 @@ export default class RichtigPlugin extends Plugin {
 		});
 
 		this.addCommand({
-			id: 'richtig.obsidian-file-check',
+			id: 'richtig-file-check',
 			name: 'Analyze full note',
 			editorCallback: (editor) => {
 				this.deactivateView();
