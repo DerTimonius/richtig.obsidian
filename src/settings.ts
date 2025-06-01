@@ -23,14 +23,19 @@ export class RichtigSettingsTab extends PluginSettingTab {
 					'gpt-4o': 'GPT-4o',
 					'gpt-4o-mini': 'GPT-4o Mini',
 					'gpt-4-turbo': 'GPT-4 Turbo',
+					'gpt-4.1': 'GPT-4.1',
 					'gpt-3.5-turbo': 'GPT-3.5 Turbo',
 					o1: '(OpenAI) o1',
 					'o1-mini': '(OpenAI) o1 Mini',
 					'o3-mini': '(OpenAI) o3 Mini',
 
+					'claude-4-sonnet-20250514': 'Claude 4 Sonnet',
+					'claude-3-7-sonnet-20250219': 'Claude 3.7 Sonnet',
 					'claude-3-5-sonnet-latest': 'Claude 3.5 Sonnet',
 					'claude-3-5-haiku-latest': 'Claude 3.5 Haiku',
 
+					'gemini-2.5-pro-preview-05-06': 'Gemini 2.5 Pro',
+					'gemini-2.5-flash-preview-04-17': 'Gemini 2.5 Flash',
 					'gemini-2.0-flash': 'Gemini 2.0 Flash',
 					'gemini-2.0-flash-lite-preview-02-05':
 						'Gemini 2.0 Flash Lite (Preview)',
